@@ -1,4 +1,9 @@
-const MOSList = ["mos_test_01.html", "mos_test_02.html"];
+/*
+ * file name  : mos.js
+ * Date       : 2024/8/5
+ * Author     : Kaito Koto
+ * Function   : 「mos」に関する関数を定義する
+ */
 
 document.addEventListener("DOMContentLoaded", () => {
   console.log("mos : DOMContentLoaded.");
@@ -55,13 +60,19 @@ document.addEventListener("DOMContentLoaded", () => {
       containerMos.insertAdjacentHTML("beforeend", containerHTML);
     }
   }
-  updateProgressBar();
-  addButtons();
+  updateProgressBar(); // 現在の進捗バーの表示
+  addButtons(); // ボタンの表示
 });
 
+/**
+ * MOSの質問について、質問の開始と終了を提供します。
+ *
+ * @returns {number} startQuestion - ページの始めの問題数
+ * @returns {number} endQuestion - ページの最後の問題数
+ * @author Kaito Koto
+ */
 function getMosQuestionRange() {
   console.log("<-- Function in " + getCallerName() + "-->");
-
   const currentPage = getCurrentPage(); // MOSの現在のページ数を取得
 
   // 設定に応じてページごとの質問セットを表示
@@ -74,6 +85,11 @@ function getMosQuestionRange() {
   return { startQuestion, endQuestion };
 }
 
+/**
+ * MOSに関する全ての項目に答えられているか検証する
+ * @returns {boolean} 検証結果
+ * @author Kaito Koto
+ */
 function validatemosInfo() {
   console.log("<-- Function in " + getCallerName() + "-->");
   let valid = true;

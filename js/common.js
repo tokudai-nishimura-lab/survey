@@ -5,6 +5,9 @@
  * Function   : 各jsファイルで共通の変数と関数を定義する
  */
 
+/**
+ * HTMLのファイルリスト
+ */
 const HTML = [
   "startform.html",
   "mos_test_01.html",
@@ -17,14 +20,26 @@ const HTML = [
 //////////////////////////////////////////////////
 //              アンケートに関する変数              //
 //////////////////////////////////////////////////
-const PersonalQuestions = 3; // 最大質問数
+/**
+ * 個人情報関連の最大問題数
+ */
+const PersonalQuestions = 3;
 
 //////////////////////////////////////////////////
 //                 MOSに関する変数                //
 //////////////////////////////////////////////////
-const MOStotalQuestions = 20; // 最大質問数
-const MOSquestionsPerPage = 10; // １ページの質問数
+/**
+ * MOS関連の最大問題数
+ */
+const MOStotalQuestions = 20;
+/**
+ * MOS関連の各ページの問題数（問題数/page）
+ */
+const MOSquestionsPerPage = 10;
 
+/**
+ * MOS関連の音声リスト
+ */
 const MOSaudioFiles = [
   "../wav/_num/1.wav",
   "../wav/_num/2.wav",
@@ -51,9 +66,18 @@ const MOSaudioFiles = [
 //////////////////////////////////////////////////
 //                DMOSに関する変数                //
 //////////////////////////////////////////////////
-const DMOStotalQuestions = 10; // 最大質問数
-const DMOSquestionsPerPage = 5; // １ページの質問数
+/**
+ * DMOS関連の最大問題数
+ */
+const DMOStotalQuestions = 10;
+/**
+ * DMOS関連の各ページの問題数（問題数/page）
+ */
+const DMOSquestionsPerPage = 5;
 
+/**
+ * DMOS関連の音声リスト
+ */
 const DMOSaudioFiles = [
   ["../wav/_num/1.wav", "../wav/_num/2.wav"],
   ["../wav/_num/3.wav", "../wav/_num/4.wav"],
@@ -67,12 +91,23 @@ const DMOSaudioFiles = [
   ["../wav/_num/19.wav", "../wav/_num/20.wav"],
 ];
 
+/**
+ * MOS関連の問題を表示させるページ数
+ */
 const mosPages = Math.ceil(MOStotalQuestions / MOSquestionsPerPage);
+/**
+ * DMOS関連の問題を表示させるページ数
+ */
 const dmosPages = Math.ceil(DMOStotalQuestions / DMOSquestionsPerPage);
 
 //////////////////////////////////////////////////
 //                    共通関数                   //
 //////////////////////////////////////////////////
+/**
+ * この関数を呼び出した関数の関数名を返す
+ * @returns {string} 呼び出し元の関数名
+ * @author Kaito Koto
+ */
 function getCallerName() {
   if (getCallerName.caller) {
     return getCallerName.caller.name || "anonymous function";
@@ -80,8 +115,11 @@ function getCallerName() {
     return "no caller (likely called from global scope)";
   }
 }
-/*
+
+/**
  * 現在のページ数を取得する
+ * @returns {number} 現在のページ数
+ * @author Kaito Koto
  */
 function getCurrentPage() {
   console.log("<-- Function in " + getCallerName() + "-->");
@@ -91,6 +129,11 @@ function getCurrentPage() {
   return currentPage ? parseInt(currentPage, 10) : 1;
 }
 
+/**
+ * 現在のページ数を記録する
+ * @param {number} pageNumber 記録するページ数
+ * @author Kaito Koto
+ */
 function setCurrentPage(pageNumber) {
   console.log("<-- Function in " + getCallerName() + "-->");
 
@@ -99,6 +142,10 @@ function setCurrentPage(pageNumber) {
   localStorage.setItem("currentPage", pageNumber);
 }
 
+/**
+ * 現在の進捗状況を返す（画面下の進捗バー）
+ * @author Kaito Koto
+ */
 function updateProgressBar() {
   console.log("<-- Function in " + getCallerName() + "-->");
   const currentPageURL = window.location.pathname.split("/").pop();
@@ -116,6 +163,10 @@ function updateProgressBar() {
   progressText.textContent = `${progressPercentage.toFixed(0)}%`;
 }
 
+/**
+ * 次のページに進む
+ * @author Kaito Koto
+ */
 async function goToNextPage() {
   console.log("<-- Function in " + getCallerName() + "-->");
   let currentPage = 0;
@@ -161,6 +212,10 @@ async function goToNextPage() {
   }
 }
 
+/**
+ * 前のページに戻る
+ * @author Kaito Koto
+ */
 function goToPreviousPage() {
   console.log("<-- Function in " + getCallerName() + "-->");
 
@@ -194,6 +249,10 @@ function goToPreviousPage() {
   }
 }
 
+/**
+ * アンケートのデータを記録する
+ * @author Kaito Koto
+ */
 function saveFormData() {
   console.log("<-- Function in " + getCallerName() + "-->");
 
@@ -203,9 +262,13 @@ function saveFormData() {
   formData.forEach((value, key) => {
     localStorage.setItem(key, value);
   });
-  alert("保存アイテム数" + localStorage.length);
+  console.log("保存アイテム数" + localStorage.length);
 }
 
+/**
+ * ページ下のボタンを作る
+ * @author Kaito Koto
+ */
 function addButtons() {
   console.log("<-- Function in " + getCallerName() + "-->");
   const containerButton = document.getElementById("container-button");
@@ -254,6 +317,12 @@ function addButtons() {
   }
 }
 
+/**
+ * 各ページ毎に全ての項目に答えられているか検証する
+ * @param {number} currentPage 現在のページ数
+ * @returns {boolean} 検証結果
+ * @author Kaito Koto
+ */
 function Valid(currentPage) {
   console.log("<-- Function in " + getCallerName() + "-->");
   let valid = true;
@@ -270,6 +339,10 @@ function Valid(currentPage) {
   return valid;
 }
 
+/**
+ * アンケートのデータをサーバーに送信する
+ * @author Kaito Koto
+ */
 async function SubmitData() {
   console.log("<-- Function in " + getCallerName() + "-->");
 
@@ -286,7 +359,7 @@ async function SubmitData() {
 
   try {
     // データを送信
-    const response = await fetch("http://localhost:8080/save_data", {
+    const response = await fetch("http://3.106.127.202:8080/save_data", {
       method: "POST",
       body: new URLSearchParams(formDataToSend),
     });

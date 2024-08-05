@@ -1,4 +1,9 @@
-const DMOSList = ["dmos_test_01.html", "dmos_test_02.html"];
+/*
+ * file name  : dmos.js
+ * Date       : 2024/8/5
+ * Author     : Kaito Koto
+ * Function   : 「dmos」に関する関数を定義する
+ */
 
 document.addEventListener("DOMContentLoaded", () => {
   console.log("dmos : DOMContentLoaded.");
@@ -65,10 +70,17 @@ document.addEventListener("DOMContentLoaded", () => {
       containerDmos.insertAdjacentHTML("beforeend", containerHTML);
     }
   }
-  updateProgressBar();
-  addButtons();
+  updateProgressBar(); // 現在の進捗バーの表示
+  addButtons(); // ボタンの表示
 });
 
+/**
+ * DMOSの質問について、質問の開始と終了を提供します。
+ *
+ * @returns {number} startQuestion - ページの始めの問題数
+ * @returns {number} endQuestion - ページの最後の問題数
+ * @author Kaito Koto
+ */
 function getDmosQuestionRange() {
   console.log("<-- Function in " + getCallerName() + "-->");
   const currentdmosPage = getCurrentPage(); // DMOSの現在のページ数を取得
@@ -79,9 +91,15 @@ function getDmosQuestionRange() {
     startQuestion + DMOSquestionsPerPage,
     DMOStotalQuestions
   );
+
   return { startQuestion, endQuestion };
 }
 
+/**
+ * DMOSに関する全ての項目に答えられているか検証する
+ * @returns {boolean} 検証結果
+ * @author Kaito Koto
+ */
 function validatedmosInfo() {
   console.log("<-- Function in " + getCallerName() + "-->");
   let valid = true;

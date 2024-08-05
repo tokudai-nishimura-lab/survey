@@ -1,3 +1,10 @@
+/*
+ * file name  : Script.js
+ * Date       : 2024/8/5
+ * Author     : Kaito Koto
+ * Function   : 「個人情報」に関する関数を定義する
+ */
+
 document.addEventListener("DOMContentLoaded", () => {
   console.log("form : DOMContentLoaded.");
   // 進捗バーの設定
@@ -5,6 +12,11 @@ document.addEventListener("DOMContentLoaded", () => {
   addButtons();
 });
 
+/**
+ * 個人情報に関する全ての項目に答えられているか検証する
+ * @returns {boolean} 検証結果
+ * @author Kaito Koto
+ */
 function validatePersonalInfo() {
   console.log("<-- Function in " + getCallerName() + "-->");
   let valid = true;
