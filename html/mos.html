@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- タイトル -->
+    <title>音声聴取実験</title>
+    <!-- ファビコンの設定 -->
+    <link rel="icon" href="../image/logo_A3.ico" type="image/x-icon" />
+    <!-- 外部CSSファイルのリンク -->
+    <link rel="stylesheet" href="../Styles.css" />
+    <!-- 外部JSファイルのリンク -->
+    <script src="../js/const.js"></script>
+    <script src="../js/common.js"></script>
+    <script src="../js/mos.js"></script>
+  </head>
+  <body>
+    <div class="header-container">
+      <h1>自然性の評価実験</h1>
+      <hr />
+      <p>
+        ここでは音声の自然性を評価します。<br />
+        １つの音声を聞き、その音声が自然かどうか判断してください。<br />
+        <br />
+        自然性とは「自然な発話であるか」という点です。<br />
+        例えば、言いよどみやイントネーションが違うなどの違和感があるかどうかとも言いかえれます。<br />
+        また、そもそも聞き取れないなども違和感の一つと言えるでしょう。<br />
+        <br />
+        １つの音声を聞く回数は最大２回までとします。<br />
+        <br />
+        今回は録音・出力環境により音声にノイズが含まれる場合があります。その点も考慮して自分が感じた回答をお願い致します。
+      </p>
+    </div>
+    <form id="surveyForm">
+      <div id="container-mos"></div>
+    </form>
+    <!-- ボタン部分 -->
+    <div id="container-button"></div>
+    <div class="progress-container">
+      <progress id="progress-bar" value="0" max="100"></progress>
+      <span id="progress-text">0%</span>
+    </div>
+  </body>
+</html>

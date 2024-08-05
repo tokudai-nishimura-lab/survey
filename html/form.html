@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- タイトル -->
+    <title>音声聴取実験</title>
+    <!-- ファビコンの設定 -->
+    <link rel="icon" href="../image/logo_A3.ico" type="image/x-icon" />
+    <!-- 外部CSSファイルのリンク -->
+    <link rel="stylesheet" href="../Styles.css" />
+    <!-- 外部JSファイルのリンク -->
+    <script src="../js/const.js"></script>
+    <script src="../js/common.js"></script>
+    <script src="../js/Script.js"></script>
+  </head>
+  <body>
+    <div class="header-container">
+      <h1>合成音声の被験者聴取実験</h1><hr>
+      <p>
+        今回は音声合成システムによる合成音声の被験者聴取実験をやっていただきます。<br />
+        このフォームこ構成は以下のようになっています。<br />
+        <ol class="chapter-list">
+          <li>：アンケート（氏名、年齢、性別）</li>
+          <li>：自然性の評価</li>
+          <li>：話者類似性の評価</li>
+      </ol>
+        本実験は100コの問があり、所要時間はおよそ30分です。<br />
+        今回、実際の人間の音声を「自然音声」、システムが出力した音声を「合成音声」と称します。
+      </p>
+    </div>
+    <form id="surveyForm" >
+      <div class="survey-container">
+        <!-- アンケート部分 -->
+
+        <div class="form-group">
+          <label for="name">氏名:</label>
+          <input type="text" id="name" name="name" required />
+          <div id="nameError" class="error-message"></div>
+        </div>
+        <div class="form-group">
+          <label for="age">年齢:</label>
+          <input type="text" id="age" name="age" required />
+          <div id="ageMessage" class="info-message">半角英数のみ</div>
+          <div id="ageError" class="error-message"></div>
+        </div>
+        <div class="form-group">
+          <label for="gender">性別:</label>
+          <select id="gender" name="gender" required>
+            <option value="" disabled selected>選択してください</option>
+            <option value="male">男性</option>
+            <option value="female">女性</option>
+            <option value="other">その他</option>
+          </select>
+          <div id="genderError" class="error-message"></div>
+        </div>
+      </div>
+    </form>
+      <!-- ボタン部分 -->
+      <div id="container-button"></div>
+    <div class="progress-container">
+      <progress id="progress-bar" value="0" max="100"></progress>
+      <span id="progress-text">0%</span>
+    </div>
+  </body>
+</html>
