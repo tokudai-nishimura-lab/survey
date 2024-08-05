@@ -1,0 +1,216 @@
+/* フォントを読み込む */
+@font-face {
+  font-family: "TopFont"; /* フォントの名前を指定 */
+  src: url("./image/nicomoji-plus_v2.ttf") format("truetype"); /* フォントファイルへのパスと形式を指定 */
+}
+
+html {
+  min-width: 600px; /* ウインドウの最小幅を800pxに設定 */
+  /* min-height: 600px;  */
+  /* ウインドウの最小高さを600pxに設定 */
+}
+
+/* Reset CSS */
+body,
+h1,
+h2,
+h3,
+p,
+ul,
+li {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background-color: #ebe2fb;
+}
+
+/* 各要素のスタイル */
+input[type="text"],
+audio {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  align-items: center;
+  width: 50%;
+  min-width: 670px; /* コンテナの幅の最低値を設定 */
+  padding: 8px;
+  box-sizing: border-box;
+}
+button {
+  flex: 1;
+  padding: 5px;
+  margin-left: 5px; /* text-to-synthesize と button の隙間 */
+  width: 100%; /* ボタンの幅を変更 */
+  height: 100%; /* ボタンの高さを変更 */
+  text-align: center; /* ボタン内のテキストを中央揃えにする */
+}
+
+label,
+input,
+select,
+button {
+  margin: 1px;
+}
+
+/* アンケート調査用に追加した Style */
+
+.chapter-list {
+  list-style-type: none; /* デフォルトのリストスタイルを無効化 */
+  counter-reset: chapter; /* カウンターをリセット */
+}
+
+.chapter-list > li {
+  counter-increment: chapter; /* カウンターをインクリメント */
+  margin-bottom: 10px;
+}
+
+.chapter-list > li::before {
+  content: counter(chapter, cjk-ideographic) "章 "; /* 章番号をカスタムスタイルで表示 */
+  /* font-weight: bold; */
+  margin-right: 5px;
+}
+
+.radio-group {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.radio-group label {
+  padding: 5px;
+  transition: background-color 0.3s;
+}
+
+.radio-group label:hover {
+  background-color: #f0f0f0;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 5px;
+  /* font-weight: bold; */
+}
+
+.form-group input,
+.form-group select {
+  width: 100%;
+  padding: 10px;
+  margin-top: 5px;
+  box-sizing: border-box;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+  outline: none;
+  transition: border-color 0.3s;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+  border-color: #1a73e8;
+}
+
+.survey-container {
+  width: 70%;
+  max-width: 800px;
+  min-width: 670px; /* コンテナの幅の最低値を設定 */
+  margin: 10px auto 10px auto;
+  padding: 20px;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.header-container {
+  width: 70%;
+  max-width: 800px;
+  min-width: 670px; /* コンテナの幅の最低値を設定 */
+  margin: 10px auto 10px auto;
+  padding: 20px;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* ボタングループ */
+.button-group {
+  display: flex;
+  justify-content: space-between;
+  width: 70%;
+  max-width: 800px;
+  margin: 10px auto 10px auto;
+  gap: 10px; /* ボタン間に10pxのスペースを設定 */
+}
+
+.button-group button {
+  width: 48%;
+  padding: 10px;
+  border: none;
+  border-radius: 4px;
+  font-size: 16px;
+  cursor: pointer;
+  background-color: #1a73e8;
+  color: white;
+  transition: background-color 0.3s;
+}
+
+.button-group button:hover {
+  background-color: #0c57c7;
+}
+
+.button-group button[type="button"] {
+  background-color: #d3d3d3;
+  cursor: not-allowed; /* カーソルを変更 */
+}
+
+.button-group button[type="button"]:hover {
+  background-color: #d3d3d3; /* ホバー時の色変更を防ぐ */
+}
+
+/* 進捗 */
+.progress-container {
+  width: 70%;
+  text-align: center;
+  margin: 40px auto 40px auto;
+}
+
+progress {
+  width: 80%;
+  height: 20px;
+}
+
+#progress-text {
+  font-size: 14px;
+  margin-top: 5px;
+  display: block;
+}
+
+/* メッセージ */
+.error-message {
+  color: red;
+  font-size: 0.9em;
+}
+
+.info-message {
+  color: blue;
+  font-size: 0.9em;
+  display: none; /* 初期状態では非表示 */
+}
+
+.audio-wrapper {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.audio-wrapper span {
+  margin-right: 5px;
+  font-weight: bold;
+}

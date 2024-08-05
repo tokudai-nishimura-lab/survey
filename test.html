@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- タイトル -->
+    <title>MOSテストアンケート</title>
+    <!-- ファビコンの設定 -->
+    <link rel="icon" href="../image/logo_A3.ico" type="image/x-icon" />
+    <!-- 外部CSSファイルのリンク -->
+    <link rel="stylesheet" href="./styles.css" />
+    <!-- 外部JSファイルのリンク -->
+    <script src="./js/Script.js" defer></script>
+    <!-- <script src="../js/Mos_Script.js" defer></script> -->
+    <script src="./js/Dmos_Script.js" defer></script>
+  </head>
+  <body>
+    <div class="header-container">
+      <h1>話者類似性の評価</h1>
+      <hr />
+      <p>
+        ここでは話者の類似性を評価します。<br />
+        まず、１つの自然音声を聞き、続けて１つの合成音声を聞いてもらいます。<br />
+        この２つの音声を聞き比べて、話しているのが同じ話者であるかを判断してください。<br />
+        <br />
+        また、自然音声は英語の音声で、合成音声は日本語の音声となっています。<br />
+        言語の壁を越えて、誰が話しているかに注目して聞いてください。<br />
+        <br />
+        Aの音声を聞き、Bの音声を聞くという流れを1セットとします。<br />
+        １つのセットを聞く回数は最大２回までとします。<br />
+        <br />
+        今回は録音・出力環境により音声にノイズが含まれる場合があります。その点も考慮して自分が感じた回答をお願い致します。
+      </p>
+    </div>
+    <form id="surveyForm">
+      <div id="container-dmos">
+        <div class="survey-container">
+          <p>test 問目</p>
+          <!-- 音声再生部分 -->
+          <div class="audio-wrapper">
+            <span>A：</span>
+            <audio controls>
+              <source src="./wav/TTS_EJF21_ATR503_A06.wav" type="audio/wav" />
+              お使いのブラウザはaudio要素をサポートしていません。
+            </audio>
+          </div>
+          <div class="audio-wrapper">
+            <span>B：</span>
+            <audio controls>
+              <source src="./wav/TTS_EJF21_ATR503_A06.wav" type="audio/wav" />
+              お使いのブラウザはaudio要素をサポートしていません。
+            </audio>
+          </div>
+          <!-- アンケート部分 -->
+          <fieldset>
+            <legend>音声の評価</legend>
+            <div class="radio-group">
+              <label>
+                <input
+                  type="radio"
+                  name="dmos-rating${
+                          i + 1
+                        }"
+                  value="1"
+                  required
+                />
+                1：完全に不自然
+              </label>
+              <label>
+                <input
+                  type="radio"
+                  name="dmos-rating${
+                          i + 1
+                        }"
+                  value="2"
+                  required
+                />
+                2：少し不自然
+              </label>
+              <label>
+                <input
+                  type="radio"
+                  name="dmos-rating${
+                          i + 1
+                        }"
+                  value="3"
+                  required
+                />
+                3：普通
+              </label>
+              <label>
+                <input
+                  type="radio"
+                  name="dmos-rating${
+                          i + 1
+                        }"
+                  value="4"
+                  required
+                />
+                4：少し自然
+              </label>
+              <label>
+                <input
+                  type="radio"
+                  name="dmos-rating${
+                          i + 1
+                        }"
+                  value="5"
+                  required
+                />
+                5：完全に自然
+              </label>
+            </div>
+            <div id="dmosError${i + 1}" class="error-message"></div>
+          </fieldset>
+        </div>
+      </div>
+    </form>
+    <!-- ボタン部分 -->
+    <div class="button-group">
+      <button type="before" onclick="history.back()">前のページへ</button>
+      <button type="submit" onclick="goToNextPage_dmos('./dmos_test_02.html')">
+        次のページへ
+      </button>
+    </div>
+    <div class="progress-container">
+      <progress id="progress-bar" value="0" max="100"></progress>
+      <span id="progress-text">0%</span>
+    </div>
+  </body>
+</html>
