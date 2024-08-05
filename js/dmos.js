@@ -72,6 +72,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
   updateProgressBar(); // 現在の進捗バーの表示
   addButtons(); // ボタンの表示
+  restoreFormData(); // 保存した解答の復元
 });
 
 /**
@@ -86,11 +87,9 @@ function getDmosQuestionRange() {
   const currentdmosPage = getCurrentPage(); // DMOSの現在のページ数を取得
 
   // 設定に応じてページごとの質問セットを表示
-  const startQuestion = (currentdmosPage - 2 - mosPages) * DMOSquestionsPerPage;
-  const endQuestion = Math.min(
-    startQuestion + DMOSquestionsPerPage,
-    DMOStotalQuestions
-  );
+  const startQuestion =
+    (currentdmosPage - 1 - HTML[0].Pages - HTML[1].Pages) * HTML[2].perpage;
+  const endQuestion = Math.min(startQuestion + HTML[2].perpage, HTML[2].total);
 
   return { startQuestion, endQuestion };
 }
@@ -100,7 +99,7 @@ function getDmosQuestionRange() {
  * @returns {boolean} 検証結果
  * @author Kaito Koto
  */
-function validatedmosInfo() {
+window.ValidDMOSInfo = function () {
   console.log("<-- Function in " + getCallerName() + "-->");
   let valid = true;
 
@@ -129,4 +128,4 @@ function validatedmosInfo() {
   }
   console.log(">> return vaild : " + valid);
   return valid;
-}
+};

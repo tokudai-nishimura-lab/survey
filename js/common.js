@@ -2,107 +2,12 @@
  * file name  : common.js
  * Date       : 2024/8/5
  * Author     : Kaito Koto
- * Function   : 各jsファイルで共通の変数と関数を定義する
+ * Function   : 共通の関数を定義する
  */
 
-/**
- * HTMLのファイルリスト
- */
-const HTML = [
-  "startform.html",
-  "mos_test_01.html",
-  "mos_test_02.html",
-  "dmos_test_01.html",
-  "dmos_test_02.html",
-  "confirm.html",
-];
-
-//////////////////////////////////////////////////
-//              アンケートに関する変数              //
-//////////////////////////////////////////////////
-/**
- * 個人情報関連の最大問題数
- */
-const PersonalQuestions = 3;
-
-//////////////////////////////////////////////////
-//                 MOSに関する変数                //
-//////////////////////////////////////////////////
-/**
- * MOS関連の最大問題数
- */
-const MOStotalQuestions = 20;
-/**
- * MOS関連の各ページの問題数（問題数/page）
- */
-const MOSquestionsPerPage = 10;
-
-/**
- * MOS関連の音声リスト
- */
-const MOSaudioFiles = [
-  "../wav/_num/1.wav",
-  "../wav/_num/2.wav",
-  "../wav/_num/3.wav",
-  "../wav/_num/4.wav",
-  "../wav/_num/5.wav",
-  "../wav/_num/6.wav",
-  "../wav/_num/7.wav",
-  "../wav/_num/8.wav",
-  "../wav/_num/9.wav",
-  "../wav/_num/10.wav",
-  "../wav/_num/11.wav",
-  "../wav/_num/12.wav",
-  "../wav/_num/13.wav",
-  "../wav/_num/14.wav",
-  "../wav/_num/15.wav",
-  "../wav/_num/16.wav",
-  "../wav/_num/17.wav",
-  "../wav/_num/18.wav",
-  "../wav/_num/19.wav",
-  "../wav/_num/20.wav",
-];
-
-//////////////////////////////////////////////////
-//                DMOSに関する変数                //
-//////////////////////////////////////////////////
-/**
- * DMOS関連の最大問題数
- */
-const DMOStotalQuestions = 10;
-/**
- * DMOS関連の各ページの問題数（問題数/page）
- */
-const DMOSquestionsPerPage = 5;
-
-/**
- * DMOS関連の音声リスト
- */
-const DMOSaudioFiles = [
-  ["../wav/_num/1.wav", "../wav/_num/2.wav"],
-  ["../wav/_num/3.wav", "../wav/_num/4.wav"],
-  ["../wav/_num/5.wav", "../wav/_num/6.wav"],
-  ["../wav/_num/7.wav", "../wav/_num/8.wav"],
-  ["../wav/_num/9.wav", "../wav/_num/10.wav"],
-  ["../wav/_num/11.wav", "../wav/_num/12.wav"],
-  ["../wav/_num/13.wav", "../wav/_num/14.wav"],
-  ["../wav/_num/15.wav", "../wav/_num/16.wav"],
-  ["../wav/_num/17.wav", "../wav/_num/18.wav"],
-  ["../wav/_num/19.wav", "../wav/_num/20.wav"],
-];
-
-/**
- * MOS関連の問題を表示させるページ数
- */
-const mosPages = Math.ceil(MOStotalQuestions / MOSquestionsPerPage);
-/**
- * DMOS関連の問題を表示させるページ数
- */
-const dmosPages = Math.ceil(DMOStotalQuestions / DMOSquestionsPerPage);
-
-//////////////////////////////////////////////////
-//                    共通関数                   //
-//////////////////////////////////////////////////
+////////////////////////////////////////////////////////////
+//                   ページ遷移に関する関数                   //
+////////////////////////////////////////////////////////////
 /**
  * この関数を呼び出した関数の関数名を返す
  * @returns {string} 呼び出し元の関数名
@@ -143,24 +48,24 @@ function setCurrentPage(pageNumber) {
 }
 
 /**
- * 現在の進捗状況を返す（画面下の進捗バー）
+ * 現在のページから指定する HTML の番号に変換する
+ * @param {number} currentPage 現在のページ数
+ * @returns {number} 指定するhtmlの番号
  * @author Kaito Koto
  */
-function updateProgressBar() {
+function page2html(currentPage) {
   console.log("<-- Function in " + getCallerName() + "-->");
-  const currentPageURL = window.location.pathname.split("/").pop();
-  if (currentPageURL === HTML[HTML.length - 1]) {
-    return;
+  let threshold = 0;
+
+  for (let i = 0; i < HTML.length; i++) {
+    threshold += HTML[i].Pages;
+
+    if (currentPage <= threshold) {
+      return i; // currentPageがthreshold以下になったときのインデックスを返す
+    }
   }
-  const progressBar = document.getElementById("progress-bar");
-  const progressText = document.getElementById("progress-text");
 
-  const totalPages = 1 + mosPages + dmosPages;
-  const currentprogPage = getCurrentPage();
-  const progressPercentage = (currentprogPage / totalPages) * 100;
-
-  progressBar.value = progressPercentage;
-  progressText.textContent = `${progressPercentage.toFixed(0)}%`;
+  return HTML.length; // すべての範囲を超えた場合、配列の長さを返す
 }
 
 /**
@@ -177,38 +82,32 @@ async function goToNextPage() {
   if (!currentPageURL || currentPageURL === "index.html") {
     currentPage = 1;
     setCurrentPage(currentPage);
-    console.log("next page : ../html/" + HTML[0]);
-    window.location.href = "../html/" + HTML[0];
-  }
-  // 最終問題ページ
-  else if (currentPageURL === HTML[HTML.length - 2]) {
-    const currentPage = getCurrentPage();
-    // 検証
-    let valid = Valid(currentPage);
-
-    if (!valid) {
-      return; // 検証が失敗した場合、ページ遷移を中止
-    }
-    // 送信
-    await SubmitData();
-    console.log("送信するでぇ");
-    setCurrentPage(currentPage + 1);
-    console.log("next page : " + HTML[currentPage]);
-    window.location.href = HTML[currentPage];
+    console.log("next page : ../html/" + HTML[0].html);
+    console.error("jamp page.");
+    window.location.href = "../html/" + HTML[0].html;
   }
   //基本ページ
   else {
     const currentPage = getCurrentPage();
     // 検証
-    let valid = Valid(currentPage);
+    let validFunctionName = HTML[page2html(currentPage)].action; // 紐付けされた関数名を取得
+    let validFunction = window[validFunctionName]; // 関数を指定
+    let valid = validFunction(); // 検証を実行
 
     if (!valid) {
       return; // 検証が失敗した場合、ページ遷移を中止
     }
+    // 最終問題ページ
+    if (currentPage === MaxPage - 1) {
+      await SubmitData();
+      console.log("送信するでぇ");
+    } else {
+      saveFormData();
+    }
     setCurrentPage(currentPage + 1);
-    saveFormData();
-    console.log("next page : " + HTML[currentPage]);
-    window.location.href = HTML[currentPage];
+    console.log("next page : " + HTML[page2html(currentPage + 1)].html);
+    console.error("jamp page.");
+    window.location.href = HTML[page2html(currentPage + 1)].html;
   }
 }
 
@@ -222,47 +121,56 @@ function goToPreviousPage() {
   let currentPage = getCurrentPage();
   const currentPageURL = window.location.pathname.split("/").pop();
   console.log("Page URL : " + currentPageURL);
-  // 送信完了ページ
-  if (currentPageURL === HTML[HTML.length - 1]) {
+  // 送信完了ページ & 最初のページ
+  if (
+    currentPageURL === HTML[HTML.length - 1].html ||
+    currentPageURL === HTML[0].html
+  ) {
     // リセット
     const keys = Object.keys(localStorage);
     keys.forEach((key) => {
       localStorage.removeItem(key);
     });
-    // indexに飛ぶ
-    console.log("top page : " + HTML[currentPage]);
-    window.location.href = "../index.html";
-  }
-  // 最初の問題ページ
-  else if (currentPageURL === HTML[0]) {
     currentPage = 0;
     setCurrentPage(currentPage);
     // indexに飛ぶ
     console.log("Jamp index!");
+    console.error("jamp page.");
     window.location.href = "../index.html";
   }
   // 基本ページ
   else {
     setCurrentPage(currentPage - 1);
-    console.log("Previous page : " + HTML[currentPage - 2]);
-    window.location.href = HTML[currentPage - 2];
+    console.log("Previous page : " + HTML[page2html(currentPage - 1)]);
+    console.error("jamp page.");
+    window.location.href = HTML[page2html(currentPage - 1)].html;
   }
 }
 
+////////////////////////////////////////////////////////////
+//                  ページの構成に関する関数                  //
+////////////////////////////////////////////////////////////
 /**
- * アンケートのデータを記録する
+ * 現在の進捗状況を返す（画面下の進捗バー）
  * @author Kaito Koto
  */
-function saveFormData() {
+function updateProgressBar() {
   console.log("<-- Function in " + getCallerName() + "-->");
+  const currentPageURL = window.location.pathname.split("/").pop();
+  if (currentPageURL === HTML[HTML.length - 1].html) {
+    return;
+  }
+  const progressBar = document.getElementById("progress-bar");
+  const progressText = document.getElementById("progress-text");
 
-  const form = document.getElementById("surveyForm");
-  const formData = new FormData(form);
+  const totalPages = MaxPage - 1;
+  console.log("totalPages" + totalPages);
+  const currentprogPage = getCurrentPage();
+  const progressPercentage = (currentprogPage / totalPages) * 100;
 
-  formData.forEach((value, key) => {
-    localStorage.setItem(key, value);
-  });
-  console.log("保存アイテム数" + localStorage.length);
+  console.log("progressPercentage" + progressPercentage);
+  progressBar.value = progressPercentage;
+  progressText.textContent = `${progressPercentage.toFixed(0)}%`;
 }
 
 /**
@@ -282,7 +190,7 @@ function addButtons() {
 
     const currentPage = getCurrentPage();
     // 最終問題ページのボタン
-    if (currentPage === HTML.length - 1) {
+    if (currentPage === MaxPage - 1) {
       prevButton.type = "before";
       prevButton.textContent = "前のページへ";
       prevButton.onclick = goToPreviousPage;
@@ -292,7 +200,7 @@ function addButtons() {
       nextButton.onclick = goToNextPage;
     }
     // 送信完了ページのボタン
-    else if (currentPage === HTML.length) {
+    else if (currentPage === MaxPage) {
       prevButton.type = "before";
       prevButton.textContent = "別の解答";
       prevButton.onclick = goToPreviousPage;
@@ -317,26 +225,63 @@ function addButtons() {
   }
 }
 
+////////////////////////////////////////////////////////////
+//                  データの扱いに関する関数                  //
+////////////////////////////////////////////////////////////
 /**
- * 各ページ毎に全ての項目に答えられているか検証する
- * @param {number} currentPage 現在のページ数
- * @returns {boolean} 検証結果
+ * アンケートのデータを記録する
  * @author Kaito Koto
  */
-function Valid(currentPage) {
+function saveFormData() {
   console.log("<-- Function in " + getCallerName() + "-->");
-  let valid = true;
-  if (currentPage <= 1) {
-    console.log("Personl Valid.");
-    valid = validatePersonalInfo();
-  } else if (currentPage <= 1 + mosPages) {
-    console.log("MOS Valid.");
-    valid = validatemosInfo();
-  } else if (currentPage <= 1 + mosPages + dmosPages) {
-    console.log("DMOS Valid.");
-    valid = validatedmosInfo();
+
+  const form = document.getElementById("surveyForm");
+  const formData = new FormData(form);
+
+  formData.forEach((value, key) => {
+    localStorage.setItem(key, value);
+  });
+  console.log("保存アイテム数" + localStorage.length);
+}
+
+/**
+ * アンケートのデータの復元
+ * @author Kaito Koto
+ */
+function restoreFormData() {
+  const form = document.getElementById("surveyForm");
+
+  for (let i = 0; i < localStorage.length; i++) {
+    const key = localStorage.key(i);
+    const value = localStorage.getItem(key);
+    const element = form.querySelector(`[name="${key}"]`);
+
+    if (element) {
+      if (element.type === "radio" || element.type === "checkbox") {
+        // ラジオボタンとチェックボックスの値を復元
+        const inputElement = form.querySelector(
+          `[name="${key}"][value="${value}"]`
+        );
+        if (inputElement) {
+          inputElement.checked = true;
+        }
+      } else if (
+        element.type === "text" ||
+        element.type === "email" ||
+        element.type === "number" ||
+        element.type === "hidden"
+      ) {
+        // テキスト入力、メール入力、数値入力、隠しフィールドの値を復元
+        element.value = value;
+      } else if (element.tagName === "TEXTAREA") {
+        // テキストエリアの値を復元
+        element.value = value;
+      } else if (element.tagName === "SELECT") {
+        // セレクトボックスの値を復元
+        element.value = value;
+      }
+    }
   }
-  return valid;
 }
 
 /**
@@ -359,7 +304,7 @@ async function SubmitData() {
 
   try {
     // データを送信
-    const response = await fetch("http://3.106.127.202:8080/save_data", {
+    const response = await fetch(PostURL, {
       method: "POST",
       body: new URLSearchParams(formDataToSend),
     });
@@ -371,7 +316,7 @@ async function SubmitData() {
     console.log("Success:", data);
     form.reset();
     localStorage.clear();
-    alert("送信に成功しました！");
+    console.error("送信に成功しました！");
   } catch (error) {
     console.error("Error:", error);
     alert(

@@ -8,8 +8,9 @@
 document.addEventListener("DOMContentLoaded", () => {
   console.log("form : DOMContentLoaded.");
   // 進捗バーの設定
-  updateProgressBar();
-  addButtons();
+  updateProgressBar(); // 現在の進捗バーの表示
+  addButtons(); // ボタンの表示
+  restoreFormData(); // 保存した解答の復元
 });
 
 /**
@@ -17,7 +18,7 @@ document.addEventListener("DOMContentLoaded", () => {
  * @returns {boolean} 検証結果
  * @author Kaito Koto
  */
-function validatePersonalInfo() {
+window.ValidFormInfo = function () {
   console.log("<-- Function in " + getCallerName() + "-->");
   let valid = true;
 
@@ -65,4 +66,4 @@ function validatePersonalInfo() {
   console.log(">> return vaild : " + valid);
 
   return valid;
-}
+};
