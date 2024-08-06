@@ -34,7 +34,7 @@ audio {
   margin-bottom: 10px;
   align-items: center;
   width: 50%;
-  min-width: 670px; /* コンテナの幅の最低値を設定 */
+  min-width: 620px; /* コンテナの幅の最低値を設定 */
   padding: 8px;
   box-sizing: border-box;
 }

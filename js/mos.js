@@ -62,6 +62,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
   updateProgressBar(); // 現在の進捗バーの表示
   addButtons(); // ボタンの表示
+  restoreFormData(); // 保存した解答の復元
 });
 
 /**
@@ -76,11 +77,8 @@ function getMosQuestionRange() {
   const currentPage = getCurrentPage(); // MOSの現在のページ数を取得
 
   // 設定に応じてページごとの質問セットを表示
-  const startQuestion = (currentPage - 2) * MOSquestionsPerPage;
-  const endQuestion = Math.min(
-    startQuestion + MOSquestionsPerPage,
-    MOStotalQuestions
-  );
+  const startQuestion = (currentPage - 1 - HTML[0].Pages) * HTML[1].perpage;
+  const endQuestion = Math.min(startQuestion + HTML[1].perpage, HTML[1].total);
 
   return { startQuestion, endQuestion };
 }
@@ -90,7 +88,7 @@ function getMosQuestionRange() {
  * @returns {boolean} 検証結果
  * @author Kaito Koto
  */
-function validatemosInfo() {
+window.ValidMOSInfo = function () {
   console.log("<-- Function in " + getCallerName() + "-->");
   let valid = true;
 
@@ -119,4 +117,4 @@ function validatemosInfo() {
   }
   console.log(">> return vaild : " + valid);
   return valid;
-}
+};
