@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- タイトル -->
+    <title>音声聴取実験</title>
+    <!-- ファビコンの設定 -->
+    <link rel="icon" href="../image/logo_A3.ico" type="image/x-icon" />
+    <!-- 外部CSSファイルのリンク -->
+    <link rel="stylesheet" href="../Styles.css" />
+    <!-- 外部JSファイルのリンク -->
+    <script src="../js/const.js"></script>
+    <script src="../js/common.js"></script>
+    <script src="../js/mos_pra.js"></script>
+  </head>
+  <body>
+    <div class="header-container">
+      <h1>自然性の評価実験(練習問題)</h1>
+      <hr />
+      <p>
+        ここでは音声の自然性を評価します。<br />
+        １つの音声を聞き、その音声が自然かどうか判断してください。<br />
+        <br />
+        音声が自然かどうかを判断する際、日本語らしさ（イントネーションや発音など）や機械音っぽさなど、いくつかの基準が考えられます。<br />
+        ご自身でどの基準にするかを決めた上で評価を進めてください。<br />
+        <br />
+        直感を大切にするため、1つの音声を聞く回数は最大2回までとしてください。<br />
+        <br />
+        今回は録音・出力環境により音声にノイズが含まれる場合があります。その点も考慮して自分が感じた回答をお願い致します。<br />
+        <br />
+      </p>
+    </div>
+    <form id="surveyForm">
+      <div id="container-mos"></div>
+    </form>
+    <div class="header-container">
+      <p style="font-size: larger;"></p>
+        音声の音量が確認できたら、次のページに進んでください。<br />
+        ここから本番が始まります。
+      </p>
+    </div>
+    <!-- ボタン部分 -->
+    <div id="container-button"></div>
+    <div class="progress-container">
+      <progress id="progress-bar" value="0" max="100"></progress>
+      <span id="progress-text">0%</span>
+    </div>
+  </body>
+</html>
