@@ -12,21 +12,24 @@
     <!-- 外部JSファイルのリンク -->
     <script src="../js/const.js"></script>
     <script src="../js/common.js"></script>
-    <script src="../js/Script.js"></script>
+    <script src="../js/form.js"></script>
   </head>
   <body>
     <div class="header-container">
       <h1>合成音声の被験者聴取実験</h1><hr>
       <p>
         今回は音声合成システムによる合成音声の被験者聴取実験をやっていただきます。<br />
+        以下のURLには本研究の目的、実験参加への注意事項、個人情報の取扱いについて記載してあります。<br />
+        <a href="https://drive.google.com/file/d/1nxfPEiBQWAbnBYN3mJYL_74pvuHFL56v/view?usp=drive_link" target="_blank">被験者の皆様へ</a><br />
         このフォームこ構成は以下のようになっています。<br />
         <ol class="chapter-list">
-          <li>：アンケート（氏名、年齢、性別）</li>
+          <li>：アンケート</li>
           <li>：自然性の評価</li>
-          <li>：話者類似性の評価</li>
       </ol>
-        本実験は100コの問があり、所要時間はおよそ30分です。<br />
-        今回、実際の人間の音声を「自然音声」、システムが出力した音声を「合成音声」と称します。
+        本実験は20コの問があり、所要時間はおよそ7分です。<br />
+        今回、実際の人間の音声を「自然音声」、システムが出力した音声を「合成音声」と称します。<br />
+        ※ 個人情報の取扱<br />
+        音声合成システムの開発・改良という目的外での利用はしません。
       </p>
     </div>
     <form id="surveyForm" >
@@ -53,6 +56,43 @@
             <option value="other">その他</option>
           </select>
           <div id="genderError" class="error-message"></div>
+        </div>
+        <div class="form-group">
+          <label for="email">メールアドレス:</label>
+          <input type="email" id="email" name="email" required />
+          <div id="emailError" class="error-message"></div>
+        </div>
+        <div class="form-group">
+          <label for="environment">実験環境 :</label>
+          <select id="environment" name="environment" required>
+            <option value="" disabled selected>選択してください</option>
+            <option value="quiet">静かな環境(推奨)</option>
+            <option value="noisy">騒音のある環境</option>
+          </select>
+          <div id="environmentError" class="error-message"></div>
+        </div>
+        <div class="form-group">
+          <label for="device">実施端末 :</label>
+          <select id="device" name="device" required>
+            <option value="" disabled selected>選択してください</option>
+            <option value="pc">パソコン(推奨)</option>
+            <option value="smartphone">スマートフォン</option>
+            <option value="tablet">タブレット</option>
+            <option value="other">その他</option>
+          </select>
+          <div id="deviceError" class="error-message"></div>
+        </div>
+        <div class="form-group">
+          <label for="peripheral">周辺機器 :</label>
+          <select id="peripheral" name="peripheral" required>
+            <option value="" disabled selected>選択してください</option>
+            <option value="headphone">ヘッドホン(推奨)</option>
+            <option value="wired-earphone">イヤホン-有線(推奨)</option>
+            <option value="wireless-earphone">イヤホン-無線</option>
+            <option value="speaker">スピーカー</option>
+            <option value="other">その他</option>
+          </select>
+          <div id="peripheralError" class="error-message"></div>
         </div>
       </div>
     </form>
