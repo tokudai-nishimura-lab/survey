@@ -147,6 +147,7 @@ function goToPreviousPage() {
   }
 }
 
+
 ////////////////////////////////////////////////////////////
 //                  ページの構成に関する関数                  //
 ////////////////////////////////////////////////////////////
@@ -171,6 +172,32 @@ function updateProgressBar() {
   console.log("progressPercentage" + progressPercentage);
   progressBar.value = progressPercentage;
   progressText.textContent = `${progressPercentage.toFixed(0)}%`;
+}
+
+/**
+ * 質問の開始と終了を提供します。
+ *
+ * @returns {number} startQuestion - ページの始めの問題数
+ * @returns {number} endQuestion - ページの最後の問題数
+ * @author Kaito Koto
+ */
+function getQuestionRange() {
+  console.log("<-- Function in " + getCallerName() + "-->");
+  const currentPage = getCurrentPage(); // MOSの現在のページ数を取得
+  const HTMLNumber = page2html(currentPage); // ページに応じたHTMLを取得
+
+  // 設定に応じてページごとの質問セットを表示
+  let totalPages = 0;
+  for (let i = 0; i < HTMLNumber; i++) {
+    if (HTML[i].Pages) {
+      totalPages += HTML[i].Pages;
+    }
+  }
+
+  const startQuestion = (currentPage - 1 - totalPages) * HTML[HTMLNumber].perpage;
+  const endQuestion = Math.min(startQuestion + HTML[HTMLNumber].perpage, HTML[HTMLNumber].total);
+
+  return { startQuestion, endQuestion };
 }
 
 /**
@@ -228,6 +255,46 @@ function addButtons() {
 ////////////////////////////////////////////////////////////
 //                  データの扱いに関する関数                  //
 ////////////////////////////////////////////////////////////
+/**
+ * ランダムシードを設定する
+ * @param {number} seed シード値
+ * @author Kaito Koto
+ * date: 2025/1/18
+ */
+function setseed() {
+  shuffleSeed = Math.floor(10000 + Math.random() * 90000);
+  console.log("Seed:", shuffleSeed);
+  localStorage.setItem("Seed", shuffleSeed);
+}
+
+/**
+ * シード値を使ったランダム関数
+ * @param {number} seed シード値
+ * @returns {number} ランダムな値
+ * @author Kaito Koto
+ * date: 2025/1/18
+ */
+function seededRandom(seed) {
+  let x = Math.sin(seed) * 10000;
+  return x - Math.floor(x);
+}
+
+/**
+ * シード値を使って配列をシャッフルする
+ * @param {Array} array シャッフルする配列
+ * @param {number} seed シード値
+ * @returns {Array} シャッフルされた配列
+ * @author Kaito Koto
+ * date: 2025/1/18
+ */
+function shuffleArray(array, seed) {
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(seededRandom(seed + i) * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+  console.log("Success shuffleArray");
+}
+
 /**
  * アンケートのデータを記録する
  * @author Kaito Koto

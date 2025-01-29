@@ -1,12 +1,12 @@
 /*
- * file name  : dmos.js
- * Date       : 2024/8/5
+ * file name  : dmos_pra.js
+ * Date       : 2025/1/20
  * Author     : Kaito Koto
- * Function   : 「dmos」に関する関数を定義する
+ * Function   : 「dmos_pra」に関する関数を定義する
  */
 
 document.addEventListener("DOMContentLoaded", () => {
-  console.log("dmos : DOMContentLoaded.");
+  console.log("dmos_pra : DOMContentLoaded.");
   // コンテナ生成の設定
   const containerDmos = document.getElementById("container-dmos");
   const { startQuestion, endQuestion } = getQuestionRange(); // 質問範囲を取得
@@ -24,10 +24,10 @@ document.addEventListener("DOMContentLoaded", () => {
           <div class="likert-group">
             <input type="range" name="dmos-rating${(i + 1).toString().padStart(2, '0')}" min="1" max="4" value="1" required>
             <div class="likert-labels">
-              <span>1</span>
-              <span>2</span>
-              <span>3</span>
-              <span>4</span>
+              <span>1<br>絶対違う</span>
+              <span>2<br>多分違う</span>
+              <span>3<br>多分同じ</span>
+              <span>4<br>絶対同じ</span>
             </div>
           </div>
         `;
@@ -53,19 +53,19 @@ document.addEventListener("DOMContentLoaded", () => {
 
       const containerHTML = `
         <div class="survey-container">
-          <p>${i + 1}問目</p>
+          <p>例題 ${i + 1}問目</p>
           <!-- 音声再生部分 -->
           <div class="audio-wrapper">
             <span>A：</span>
             <audio controls>
-              <source src="${DMOSaudioFiles[i][0]}" type="audio/wav">
+              <source src="${DMOStestaudioFiles[i][0]}" type="audio/wav">
               お使いのブラウザはaudio要素をサポートしていません。
             </audio>
           </div>
           <div class="audio-wrapper">
             <span>B：</span>
             <audio controls>
-              <source src="${DMOSaudioFiles[i][1]}" type="audio/wav">
+              <source src="${DMOStestaudioFiles[i][1]}" type="audio/wav">
               お使いのブラウザはaudio要素をサポートしていません。
             </audio>
           </div>
@@ -94,44 +94,15 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 /**
- * DMOSに関する全ての項目に答えられているか検証する
+ * 検証をスキップする
  * @returns {boolean} 検証結果
  * @author Kaito Koto
  */
-window.ValidDMOSInfo = function () {
+window.ValidSkipInfo = function () {
   console.log("<-- Function in " + getCallerName() + "-->");
   let valid = true;
-  const isMobile = window.innerWidth <= 600;
-
-  const { startQuestion, endQuestion } = getQuestionRange(); // 質問範囲を取得
-  for (let i = startQuestion; i < endQuestion; i++) {
-    const dmosError = document.getElementById(`dmosError${i + 1}`);
-    const dmosMessage = document.getElementById(`dmosMessage${i + 1}`);
-    dmosError.textContent = "";
-    let isChecked = false;
-    const dmosInputs = document.querySelectorAll(
-      `input[name="dmos-rating${(i + 1).toString().padStart(2, '0')}"]`
-    );
-
-    dmosInputs.forEach((input) => {
-      if (isMobile) {
-        if (input.getAttribute("data-checked")) {
-          isChecked = true;
-        }
-      } else {
-        if (input.checked) {
-          isChecked = true;
-        }
-      }
-    });
-    if (!isChecked) {
-      dmosError.textContent = "この回答は必須です。";
-      if (dmosMessage) dmosMessage.style.display = "block";
-      valid = false;
-    } else {
-      if (dmosMessage) dmosMessage.style.display = "none";
-    }
-  }
+  // シャッフルのシード値を5桁のランダムな数で再定義
+  setseed();
   console.log(">> return vaild : " + valid);
   return valid;
 };
